@@ -13,3 +13,8 @@ Files include the retyped Matlab code to Empirical Transfer Function Estimate an
 - `mainnum.m` : single input numerical example
 - `mainsiso.m` : single input experimental data
 - `mainmiso.m` : multi-input experimental data
+
+The information matrix and vector were stored in a `.mat` file and then loaded by the tool. The code for the tool is:
+- `tvf_tool.m` : single input numerical example or experimental data
+- `tvf_toolmiso.m` : multi-input experimental data
+ However, these files are not present in this repositority.
