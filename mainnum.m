@@ -156,3 +156,82 @@ ttime=clock; % time the calculation
 gmatlab=gmatlab';
 
 % end of page 65
+
+tgone=etime(clock,ttime);
+fprintf('Impulse Matlab : %2.4f s\n',tgone)
+% --------------------------------
+% Find information matrix, vector
+% and impulse response using
+% imp_est.m
+% --------------------------------
+ttime=clock; % time the calculation
+[Minfo,Vinfo,g]=impest(y,u,m,N); % info matrix, vector and impulse response estimate
+
+tgone=etime(clock,ttime);
+fprintf('Impulse Estimate : 2.4f s\n',tgone)
+
+% --------------------------------
+% Plot exact and esimate impulse
+% response
+%--------------------------------
+if plots
+    figure(fig)
+    set(fig,'Position',[548 389 560 440])
+    fig=fig+1;
+
+    subplot(211)
+    plot(g_matlab,'r-.')
+    ylabel('g, exact impulse response')
+    title('Exact and Estimate Impulse Response') ax=axis;
+
+    subplot(212)
+    plot (g)
+    xlabel('data pt. #')
+    ylabel('g, estimate impulse response') ax2=axis;
+    ax2=[ax(1) ax(2) ax2(3) ax2(4)];
+    axis(ax2);
+end
+
+% --------------------------------
+% estimate TF from g estimate
+% --------------------------------
+
+ttime=clock; % time the calculation
+[mag_g,phg]=g2tf (g); % magnitude and phase
+tgone=etime(clock,ttime);
+fprintf('Estimate TF from g : %2.4f s\n',tgone)
+
+freq=[0:m-1]./(dt*m); % frequency (Hz)
+
+% --------------------------------
+% Plot TF estimate and compare to % exact
+% --------------------------------
+if plots
+    figure(fig)
+    % end of page 65
+    set(fig,'Position',[548 389 560 440])
+    fig=fig+1;
+    subplot(211)
+    plot(f,mag,freq,mag_g,'r--')
+    axis([0 16 0 2])
+    grid
+    ylabel('Gain')
+    title('Transfer Function Estimate')
+    subplot(212)
+    plot(f,ph,freq,ph_g-360,'r--')
+    axis([0 16 -400 0])
+    grid
+    xlabel('Frequency (Hz)')
+    ylabel('Phase (deg)')
+    ll=legend('Exact TF','Estimate TF');
+    clear 11
+end
+
+% --------------------------------
+% Save information to .mat file
+% for use with tvftool.m
+% --------------------------------
+
+filename=['main_m' num2str(m) '_' .u_input num2str(noise_variance)]
+eval(['save ' filename...
+     ' Minfo Vinfo dt g g_matlab t f mag ph y u N m n Nvar num den noise_variance u_input'])
