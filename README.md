@@ -9,3 +9,7 @@ Given limited and noisy data, identifying the transfer function of a complex aer
 **The Thesis Supervisor:** Steven R. Hall, Associate Professor
 
 Files include the retyped Matlab code to Empirical Transfer Function Estimate and Welch's Averaged Periodogram Method.
+
+- ~mainnum.m~ : single input numerical example
+- ~mainsiso.m~ : single input experimental data
+- ~mainmiso.m~ : multi-input experimental data
